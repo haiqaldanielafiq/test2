@@ -1,85 +1,52 @@
-# Math Quest: WANG 🪙
+# Math Quest: Wang Arcade 🪙
 
-An enterprise-quality educational platformer game for Malaysian Primary 4 students, focusing on the **DSKP Mathematics Topic: WANG**.
+A professional web-based educational arcade game for Malaysian Year 4 primary school students, focusing on the **DSKP Mathematics Topic: Wang**.
 
-## 🎮 Overview
+## 🎮 Game Concept
+Inspired by classic arcade mazes, students control a hero character to collect coins and navigate a maze while avoiding ghosts. To unlock higher scores and clear levels, students must answer interactive mathematics questions related to **Addition and Subtraction of Money within RM100**.
 
-Math Quest: WANG is designed to make learning mathematics fun and engaging. Students play as a character navigating a platformer world, unlocking question blocks that test their knowledge of currency values, addition, subtraction, and word problems related to money.
+### 📚 Learning Objectives (DSKP Year 4)
+- Add money within RM100.
+- Subtract money within RM100.
+- Solve daily life money problems involving addition and subtraction.
 
-### 📚 DSKP Syllabus Coverage
-- **Level 1:** Money Value (Ringgit, Sen, Conversion)
-- **Level 2:** Addition of Money
-- **Level 3:** Subtraction of Money
-- **Level 4:** Calculate Change
-- **Level 5:** Word Problems
+## 🚀 Key Features
+- **Arcade Gameplay:** Smooth grid-based movement with ghost AI and collision detection.
+- **Interactive Question Engine:** Generates 50+ unique questions including problem-solving and shopping simulations.
+- **Teacher Dashboard:** Real-time analysis of accuracy, playing time, and weak topics.
+- **Achievement System:** 5+ unlockable badges based on performance.
+- **Premium UI:** Neon arcade aesthetics, smooth transitions, and responsive layout.
+- **Audio Synthesis:** Real-time Web Audio API synthesis for SFX (no external assets required).
+- **Persistence:** LocalStorage-based saving for progress, high scores, and settings.
 
-## 🚀 Tech Stack
-
-- **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
-- **UI Library:** [React 19](https://react.dev/)
-- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
-- **Animations:** [Framer Motion](https://www.framer.com/motion/)
-- **State Management:** [Zustand](https://github.com/pmndrs/zustand)
-- **Audio:** [Howler.js](https://howlerjs.com/)
-- **Data Validation:** [Zod](https://zod.dev/) & [React Hook Form](https://react-hook-form.com/)
-
-## 🛠️ Installation & Setup
-
-### Prerequisites
-- Node.js (Latest LTS recommended)
-- npm or yarn
-
-### Steps
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/math-quest-wang.git
-   cd math-quest-wang
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-
-4. **Build for production:**
-   ```bash
-   npm run build
-   npm start
-   ```
+## 🛠️ Tech Stack
+- **Languages:** HTML5, CSS3, Vanilla JavaScript (ES6+).
+- **APIs:** Web Audio API, Canvas API, LocalStorage API.
+- **Fonts:** Google Fonts (Bungee & Nunito).
 
 ## 📂 Project Structure
-
 ```text
-src/
-├── app/            # Next.js App Router (Pages & Layouts)
-├── components/     # Reusable UI & Game components
-├── hooks/          # Custom React hooks (Audio, Game Logic)
-├── store/          # Zustand store for state & persistence
-├── lib/            # Utilities, Constants & Theme config
-├── types/          # TypeScript interfaces
-├── data/           # Question bank (50+ items) & Achievements
-└── styles/         # Global styles & Tailwind directives
-public/
-└── assets/         # Placeholder images & Audio files
+/
+├── index.html          # Main application entry point
+├── css/
+│   └── style.css       # Arcade themes and animations
+├── js/
+│   ├── main.js         # App orchestration
+│   ├── engine.js       # Game maze engine
+│   ├── ui.js           # UI and screen management
+│   ├── state.js        # Data persistence
+│   ├── audio.js        # Sound synthesis
+│   ├── dashboard.js    # Teacher analytics
+│   └── achievements.js # Reward system
+├── questions/
+│   └── questionGenerator.js # DSKP Question Bank
+└── assets/             # Images and Sound placeholders
 ```
 
-## 🏆 Game Features
-
-- **Interactive Gameplay:** Player walks across platforms and jumps when answering correctly.
-- **Progressive Learning:** 5 levels of increasing difficulty.
-- **Persistence:** High scores, unlocked levels, and achievements are saved to LocalStorage.
-- **Teacher Dashboard:** Detailed statistics on accuracy, weak topics, and time played.
-- **Accessibility:** Responsive design, high contrast elements, and keyboard navigation support.
+## 📦 Installation & Deployment
+1. **Clone or Download** the repository.
+2. **Open `index.html`** in any modern web browser.
+3. **Deploy to Vercel:** This is a static project. Simply push to GitHub and connect to Vercel for instant hosting.
 
 ## 📄 License
-
 This project is licensed under the MIT License.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
