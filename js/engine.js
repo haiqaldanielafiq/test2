@@ -93,31 +93,26 @@ class GameEngine {
     }
 
     movePlayer() {
-        // Simple grid-based movement with buffer for turning
         const p = this.player;
         const s = p.speed;
 
-        // Try to change direction
         if (p.pixelX % this.tileSize === 0 && p.pixelY % this.tileSize === 0) {
             const gridX = Math.round(p.pixelX / this.tileSize);
             const gridY = Math.round(p.pixelY / this.tileSize);
 
-            // Check if nextDir is possible
             if (this.canMove(gridX, gridY, p.nextDir)) {
                 p.dir = p.nextDir;
             }
 
-            // Check if current dir is blocked
             if (!this.canMove(gridX, gridY, p.dir)) {
-                return; // Stop
+                return;
             }
 
-            // Handle Item Collection
             const cell = this.map[gridY][gridX];
-            if (cell === 2) { // Coin
+            if (cell === 2) {
                 this.map[gridY][gridX] = 0;
                 window.app.onCollectCoin();
-            } else if (cell === 3) { // Question
+            } else if (cell === 3) {
                 this.map[gridY][gridX] = 0;
                 this.isPaused = true;
                 window.app.onTriggerQuestion();
@@ -146,7 +141,6 @@ class GameEngine {
                 const gx = Math.round(g.pixelX / this.tileSize);
                 const gy = Math.round(g.pixelY / this.tileSize);
 
-                // Choose random new direction that isn't back
                 const possible = [0, 1, 2, 3].filter(d => this.canMove(gx, gy, d));
                 if (possible.length > 1) {
                    const back = (g.dir + 2) % 4;
@@ -188,7 +182,6 @@ class GameEngine {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Draw Map
         for (let y = 0; y < this.map.length; y++) {
             for (let x = 0; x < this.map[y].length; x++) {
                 const cell = this.map[y][x];
@@ -199,6 +192,7 @@ class GameEngine {
                     this.ctx.fillStyle = '#1a1a4a';
                     this.ctx.fillRect(px, py, this.tileSize, this.tileSize);
                     this.ctx.strokeStyle = '#00f2ff';
+                    this.ctx.lineWidth = 2;
                     this.ctx.strokeRect(px + 2, py + 2, this.tileSize - 4, this.tileSize - 4);
                 } else if (cell === 2) {
                     this.ctx.fillStyle = '#ffff00';
@@ -207,36 +201,61 @@ class GameEngine {
                     this.ctx.fill();
                 } else if (cell === 3) {
                     this.ctx.fillStyle = '#ff00ff';
-                    this.ctx.font = `${this.tileSize * 0.8}px Arial`;
-                    this.ctx.fillText('?', px + 5, py + this.tileSize - 5);
+                    this.ctx.font = `bold ${this.tileSize * 0.6}px Arial`;
+                    this.ctx.textAlign = 'center';
+                    this.ctx.textBaseline = 'middle';
+                    this.ctx.fillText('?', px + this.tileSize/2, py + this.tileSize/2);
                 }
             }
         }
 
-        // Draw Player
+        // Draw Player with active skin
         const p = this.player;
-        this.ctx.fillStyle = '#ffff00';
+        const skinColor = State.user.activeSkin || '#ffff00';
+        this.ctx.fillStyle = skinColor;
+        this.ctx.shadowBlur = 10;
+        this.ctx.shadowColor = skinColor;
         this.ctx.beginPath();
-        this.ctx.arc(p.pixelX + this.tileSize/2, p.pixelY + this.tileSize/2, this.tileSize/2 - 2, 0.2 * Math.PI, 1.8 * Math.PI);
+
+        // Mouth rotation based on direction
+        let mouthOpen = 0.2;
+        let rotation = 0;
+        if (p.dir === 1) rotation = 0;
+        if (p.dir === 2) rotation = 0.5 * Math.PI;
+        if (p.dir === 3) rotation = Math.PI;
+        if (p.dir === 0) rotation = 1.5 * Math.PI;
+
+        this.ctx.arc(p.pixelX + this.tileSize/2, p.pixelY + this.tileSize/2, this.tileSize/2 - 2, rotation + mouthOpen * Math.PI, rotation + (2 - mouthOpen) * Math.PI);
         this.ctx.lineTo(p.pixelX + this.tileSize/2, p.pixelY + this.tileSize/2);
         this.ctx.fill();
+        this.ctx.shadowBlur = 0;
 
         // Draw Ghosts
         this.ghosts.forEach(g => {
             this.ctx.fillStyle = g.color;
+            this.ctx.shadowBlur = 15;
+            this.ctx.shadowColor = g.color;
             this.ctx.beginPath();
             this.ctx.arc(g.pixelX + this.tileSize/2, g.pixelY + this.tileSize/2, this.tileSize/2 - 2, Math.PI, 0);
             this.ctx.lineTo(g.pixelX + this.tileSize - 2, g.pixelY + this.tileSize - 2);
             this.ctx.lineTo(g.pixelX + 2, g.pixelY + this.tileSize - 2);
             this.ctx.fill();
+
+            // Eyes
+            this.ctx.fillStyle = 'white';
+            this.ctx.beginPath();
+            this.ctx.arc(g.pixelX + this.tileSize/3, g.pixelY + this.tileSize/2.5, 3, 0, Math.PI * 2);
+            this.ctx.arc(g.pixelX + (this.tileSize/3)*2, g.pixelY + this.tileSize/2.5, 3, 0, Math.PI * 2);
+            this.ctx.fill();
         });
+        this.ctx.shadowBlur = 0;
     }
 
     handleInput(key) {
-        if (key === 'ArrowUp') this.player.nextDir = 0;
-        if (key === 'ArrowRight') this.player.nextDir = 1;
-        if (key === 'ArrowDown') this.player.nextDir = 2;
-        if (key === 'ArrowLeft') this.player.nextDir = 3;
+        if (key === 'ArrowUp' || key === 'w') this.player.nextDir = 0;
+        if (key === 'ArrowRight' || key === 'd') this.player.nextDir = 1;
+        if (key === 'ArrowDown' || key === 's') this.player.nextDir = 2;
+        if (key === 'ArrowLeft' || key === 'a') this.player.nextDir = 3;
     }
 }
 

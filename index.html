@@ -11,7 +11,6 @@
 </head>
 <body>
     <div id="app">
-        <!-- Splash Screen -->
         <section id="splash-screen" class="screen active">
             <div class="splash-content" style="text-align: center;">
                 <h1 class="neon-text">MATH QUEST</h1>
@@ -23,17 +22,17 @@
             </div>
         </section>
 
-        <!-- Main Menu -->
         <section id="main-menu" class="screen">
             <div class="menu-header" style="margin-bottom: 2rem;">
                 <h1 class="logo-text">WANG <span>ARCADE</span></h1>
             </div>
             <div class="menu-body">
                 <div class="character-preview" style="margin-bottom: 2rem;">
-                    <div class="pac-man-hero"></div>
+                    <div id="hero-preview" class="pac-man-hero"></div>
                 </div>
                 <div class="menu-buttons" style="display: flex; flex-direction: column; gap: 15px; width: 280px;">
                     <button class="btn btn-primary" onclick="app.showScreen('level-select')">MULA BERMAIN</button>
+                    <button class="btn btn-secondary" onclick="app.showScreen('shop')">KEDAI SKIN 🎭</button>
                     <button class="btn btn-secondary" onclick="app.showScreen('tutorial')">CARA BERMAIN</button>
                     <button class="btn btn-secondary" onclick="app.showScreen('achievements')">PENCAPAIAN</button>
                     <button class="btn btn-secondary" onclick="app.showScreen('dashboard')">DASHBOARD GURU</button>
@@ -42,14 +41,19 @@
             </div>
         </section>
 
-        <!-- Level Select -->
+        <section id="shop" class="screen">
+            <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
+            <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 1rem; font-size: 2rem; color: var(--primary);">KEDAI SKIN</h2>
+            <div class="shop-hud" style="margin-bottom: 20px; font-family: var(--font-arcade); color: var(--accent);">💰 SYILING ANDA: <span id="shop-coins">0</span></div>
+            <div id="skin-grid" class="level-grid"></div>
+        </section>
+
         <section id="level-select" class="screen">
             <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
             <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">PILIH TAHAP</h2>
             <div class="level-grid" id="level-grid"></div>
         </section>
 
-        <!-- Game Screen -->
         <section id="game-screen" class="screen" style="padding: 0;">
             <div class="game-hud">
                 <div class="hud-item">❤️ <span id="lives">3</span></div>
@@ -79,7 +83,6 @@
             </div>
         </section>
 
-        <!-- Tutorial -->
         <section id="tutorial" class="screen">
             <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
             <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">CARA BERMAIN</h2>
@@ -94,14 +97,12 @@
             </div>
         </section>
 
-        <!-- Achievements -->
         <section id="achievements" class="screen">
             <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
             <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">PENCAPAIAN</h2>
             <div id="achievements-list" class="level-grid"></div>
         </section>
 
-        <!-- Dashboard -->
         <section id="dashboard" class="screen">
             <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
             <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">DASHBOARD GURU</h2>
@@ -139,7 +140,6 @@
             </div>
         </section>
 
-        <!-- Settings -->
         <section id="settings" class="screen">
             <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
             <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">TETAPAN</h2>
@@ -159,7 +159,6 @@
             </div>
         </section>
 
-        <!-- Modals -->
         <div id="pause-modal" class="modal hidden">
             <div class="modal-content">
                 <h2 style="font-family: var(--font-arcade); margin-bottom: 1rem;">DIJEDA</h2>
@@ -181,7 +180,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="js/state.js"></script>
     <script src="js/audio.js"></script>
     <script src="questions/questionGenerator.js"></script>

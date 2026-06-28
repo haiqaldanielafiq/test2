@@ -8,7 +8,9 @@ const QuestionGenerator = {
         addition: 'Penambahan Wang',
         subtraction: 'Penolakan Wang',
         problemSolving: 'Penyelesaian Masalah',
-        shopping: 'Simulasi Membeli-belah'
+        shopping: 'Simulasi Membeli-belah',
+        trueFalse: 'Betul atau Salah',
+        fillBlank: 'Isi Tempat Kosong'
     },
 
     assets: {
@@ -34,21 +36,13 @@ const QuestionGenerator = {
         ]
     },
 
-    /**
-     * Generate a set of questions for a specific level
-     * Level 1: RM1 - RM20
-     * Level 2: RM20 - RM40
-     * Level 3: RM40 - RM60
-     * Level 4: RM60 - RM80
-     * Level 5: RM80 - RM100
-     */
     generateSet(levelId, count = 10) {
         const questions = [];
         const maxRange = levelId * 20;
         const minRange = maxRange - 20;
 
         for (let i = 0; i < count; i++) {
-            const type = Math.floor(Math.random() * 4);
+            const type = Math.floor(Math.random() * 6);
             let q;
 
             switch (type) {
@@ -56,6 +50,8 @@ const QuestionGenerator = {
                 case 1: q = this.createSubtraction(minRange, maxRange); break;
                 case 2: q = this.createProblemSolving(minRange, maxRange); break;
                 case 3: q = this.createShopping(minRange, maxRange); break;
+                case 4: q = this.createTrueFalse(minRange, maxRange); break;
+                case 5: q = this.createFillBlank(minRange, maxRange); break;
             }
             questions.push(q);
         }
@@ -119,6 +115,40 @@ const QuestionGenerator = {
             answer: `RM${total}`,
             choices: this.generateChoices(total, 'RM'),
             explanation: `Langkah: RM${item1.price} (Harga ${item1.name}) + RM${item2.price} (Harga ${item2.name}) = RM${total}.`
+        };
+    },
+
+    createTrueFalse(min, max) {
+        const v1 = Math.floor(Math.random() * (max / 2)) + 1;
+        const v2 = Math.floor(Math.random() * (max / 2)) + 1;
+        const correctSum = v1 + v2;
+        const isTrue = Math.random() > 0.5;
+        const displaySum = isTrue ? correctSum : correctSum + (Math.random() > 0.5 ? 1 : -1);
+
+        return {
+            topic: this.topics.trueFalse,
+            text: `Adakah RM${v1} + RM${v2} bersamaan dengan RM${displaySum}?`,
+            illustration: '❓',
+            answer: isTrue ? 'Betul' : 'Salah',
+            choices: ['Betul', 'Salah'],
+            explanation: isTrue
+                ? `Ya, RM${v1} + RM${v2} sememangnya RM${correctSum}.`
+                : `Tidak, RM${v1} + RM${v2} adalah RM${correctSum}, bukan RM${displaySum}.`
+        };
+    },
+
+    createFillBlank(min, max) {
+        const answer = Math.floor(Math.random() * (max / 2)) + 5;
+        const v1 = Math.floor(Math.random() * (answer - 1)) + 1;
+        const v2 = answer - v1;
+
+        return {
+            topic: this.topics.fillBlank,
+            text: `RM${v1} + [ ? ] = RM${answer}`,
+            illustration: '📝',
+            answer: `RM${v2}`,
+            choices: this.generateChoices(v2, 'RM'),
+            explanation: `Untuk mencari anu: RM${answer} - RM${v1} = RM${v2}.`
         };
     },
 

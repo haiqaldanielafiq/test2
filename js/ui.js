@@ -4,11 +4,12 @@
  */
 
 const UI = {
-    screens: ['splash-screen', 'main-menu', 'level-select', 'game-screen', 'dashboard', 'settings', 'tutorial', 'achievements'],
+    screens: ['splash-screen', 'main-menu', 'level-select', 'game-screen', 'dashboard', 'settings', 'tutorial', 'achievements', 'shop'],
 
     init() {
         this.renderLevelGrid();
         this.setupEventListeners();
+        this.updateHeroPreview();
     },
 
     showScreen(screenId) {
@@ -22,6 +23,15 @@ const UI = {
             target.classList.add('active');
             if (screenId === 'dashboard') this.renderDashboard();
             if (screenId === 'achievements') Achievements.render();
+            if (screenId === 'shop') this.renderShop();
+            if (screenId === 'main-menu') this.updateHeroPreview();
+        }
+    },
+
+    updateHeroPreview() {
+        const preview = document.getElementById('hero-preview');
+        if (preview) {
+            preview.style.background = State.user.activeSkin;
         }
     },
 
@@ -44,6 +54,57 @@ const UI = {
             }
             grid.appendChild(card);
         }
+    },
+
+    renderShop() {
+        const grid = document.getElementById('skin-grid');
+        const coinsEl = document.getElementById('shop-coins');
+        if (!grid || !coinsEl) return;
+
+        coinsEl.textContent = State.user.totalCoins;
+        grid.innerHTML = '';
+
+        const skins = [
+            { id: '#ffff00', name: 'Klasik', price: 0 },
+            { id: '#ff00ff', name: 'Neon', price: 50 },
+            { id: '#00f2ff', name: 'Siber', price: 50 },
+            { id: '#00ff88', name: 'Zamrud', price: 100 },
+            { id: '#ff4d4d', name: 'Berapi', price: 100 },
+            { id: '#ffffff', name: 'Putih', price: 200 }
+        ];
+
+        skins.forEach(skin => {
+            const isOwned = State.user.skins.includes(skin.id);
+            const isActive = State.user.activeSkin === skin.id;
+            const card = document.createElement('div');
+            card.className = `level-card ${isActive ? 'active-skin' : ''}`;
+            card.style.borderColor = skin.id;
+
+            card.innerHTML = `
+                <div class="pac-man-hero" style="background: ${skin.id}; margin: 0 auto 10px;"></div>
+                <h3 style="font-size: 0.8rem;">${skin.name}</h3>
+                <p style="font-size: 0.7rem;">${isOwned ? (isActive ? 'DIGUNAKAN' : 'MILIK ANDA') : '💰 ' + skin.price}</p>
+            `;
+
+            card.onclick = () => {
+                if (isOwned) {
+                    State.user.activeSkin = skin.id;
+                    State.save();
+                    this.renderShop();
+                    AudioEngine.play('pause');
+                } else if (State.user.totalCoins >= skin.price) {
+                    State.user.totalCoins -= skin.price;
+                    State.user.skins.push(skin.id);
+                    State.user.activeSkin = skin.id;
+                    State.save();
+                    this.renderShop();
+                    AudioEngine.play('coin');
+                } else {
+                    AudioEngine.play('wrong');
+                }
+            };
+            grid.appendChild(card);
+        });
     },
 
     getStarsHtml(levelId) {

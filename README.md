@@ -12,12 +12,13 @@ Inspired by classic arcade mazes, students control a hero character to collect c
 
 ## 🚀 Key Features
 - **Arcade Gameplay:** Smooth grid-based movement with ghost AI and collision detection.
-- **Interactive Question Engine:** Generates 50+ unique questions including problem-solving and shopping simulations.
+- **Interactive Question Engine:** Generates 50+ unique questions including True/False, Fill in the Blank, and Shopping Simulations.
+- **Shop System:** Spend collected coins on new character skins and colors.
 - **Teacher Dashboard:** Real-time analysis of accuracy, playing time, and weak topics.
 - **Achievement System:** 5+ unlockable badges based on performance.
-- **Premium UI:** Neon arcade aesthetics, smooth transitions, and responsive layout.
-- **Audio Synthesis:** Real-time Web Audio API synthesis for SFX (no external assets required).
-- **Persistence:** LocalStorage-based saving for progress, high scores, and settings.
+- **Premium UI:** Neon arcade aesthetics, particle backgrounds, smooth transitions, and responsive layout.
+- **Audio Synthesis:** Real-time Web Audio API synthesis for retro SFX and background music.
+- **Persistence:** LocalStorage-based saving for progress, high scores, skins, and settings.
 
 ## 🛠️ Tech Stack
 - **Languages:** HTML5, CSS3, Vanilla JavaScript (ES6+).
@@ -29,13 +30,13 @@ Inspired by classic arcade mazes, students control a hero character to collect c
 /
 ├── index.html          # Main application entry point
 ├── css/
-│   └── style.css       # Arcade themes and animations
+│   └── style.css       # Arcade themes, animations, and particle effects
 ├── js/
 │   ├── main.js         # App orchestration
 │   ├── engine.js       # Game maze engine
 │   ├── ui.js           # UI and screen management
 │   ├── state.js        # Data persistence
-│   ├── audio.js        # Sound synthesis
+│   ├── audio.js        # Sound synthesis (SFX & BGM)
 │   ├── dashboard.js    # Teacher analytics
 │   └── achievements.js # Reward system
 ├── questions/
