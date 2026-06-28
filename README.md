@@ -1,13 +1,52 @@
-# Math Quest Wang Tahun 4 (Base)
+# Math Quest: Wang Arcade 🪙
 
-Base project scaffold for a Next.js + TypeScript interactive game.
+A professional web-based educational arcade game for Malaysian Year 4 primary school students, focusing on the **DSKP Mathematics Topic: Wang**.
 
-## Stack
-- Next.js
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Howler.js
-- Zustand
+## 🎮 Game Concept
+Inspired by classic arcade mazes, students control a hero character to collect coins and navigate a maze while avoiding ghosts. To unlock higher scores and clear levels, students must answer interactive mathematics questions related to **Addition and Subtraction of Money within RM100**.
 
-This is a starter architecture intended to be extended by Jules AI.
+### 📚 Learning Objectives (DSKP Year 4)
+- Add money within RM100.
+- Subtract money within RM100.
+- Solve daily life money problems involving addition and subtraction.
+
+## 🚀 Key Features
+- **Arcade Gameplay:** Smooth grid-based movement with ghost AI and collision detection.
+- **Interactive Question Engine:** Generates 50+ unique questions including problem-solving and shopping simulations.
+- **Teacher Dashboard:** Real-time analysis of accuracy, playing time, and weak topics.
+- **Achievement System:** 5+ unlockable badges based on performance.
+- **Premium UI:** Neon arcade aesthetics, smooth transitions, and responsive layout.
+- **Audio Synthesis:** Real-time Web Audio API synthesis for SFX (no external assets required).
+- **Persistence:** LocalStorage-based saving for progress, high scores, and settings.
+
+## 🛠️ Tech Stack
+- **Languages:** HTML5, CSS3, Vanilla JavaScript (ES6+).
+- **APIs:** Web Audio API, Canvas API, LocalStorage API.
+- **Fonts:** Google Fonts (Bungee & Nunito).
+
+## 📂 Project Structure
+```text
+/
+├── index.html          # Main application entry point
+├── css/
+│   └── style.css       # Arcade themes and animations
+├── js/
+│   ├── main.js         # App orchestration
+│   ├── engine.js       # Game maze engine
+│   ├── ui.js           # UI and screen management
+│   ├── state.js        # Data persistence
+│   ├── audio.js        # Sound synthesis
+│   ├── dashboard.js    # Teacher analytics
+│   └── achievements.js # Reward system
+├── questions/
+│   └── questionGenerator.js # DSKP Question Bank
+└── assets/             # Images and Sound placeholders
+```
+
+## 📦 Installation & Deployment
+1. **Clone or Download** the repository.
+2. **Open `index.html`** in any modern web browser.
+3. **Deploy to Vercel:** This is a static project. Simply push to GitHub and connect to Vercel for instant hosting.
+
+## 📄 License
+This project is licensed under the MIT License.

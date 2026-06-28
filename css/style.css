@@ -1,0 +1,197 @@
+:root {
+    --bg-dark: #0a0a12;
+    --primary: #00f2ff;
+    --secondary: #ff00ff;
+    --accent: #ffff00;
+    --success: #00ff88;
+    --danger: #ff4d4d;
+    --text: #ffffff;
+    --glass: rgba(255, 255, 255, 0.1);
+    --font-main: 'Nunito', sans-serif;
+    --font-arcade: 'Bungee', cursive;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-dark);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* HUD */
+.game-hud {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.hud-item {
+    font-family: var(--font-arcade);
+    background: rgba(0,0,0,0.7);
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    white-space: nowrap;
+}
+
+/* Maze */
+#maze-container {
+    width: min(95vw, 800px);
+    height: min(70vh, 600px);
+    background: #000;
+    border: 4px solid #1a1a4a;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+}
+
+#game-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Menu */
+.logo-text {
+    font-family: var(--font-arcade);
+    font-size: clamp(2rem, 8vw, 4rem);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo-text span {
+    color: var(--accent);
+}
+
+.pac-man-hero {
+    width: 80px;
+    height: 80px;
+    background: var(--accent);
+    border-radius: 50%;
+    clip-path: polygon(100% 0, 100% 35%, 50% 50%, 100% 65%, 100% 100%, 0 100%, 0 0);
+    animation: bite 0.4s infinite alternate;
+}
+
+/* Buttons */
+.btn {
+    font-family: var(--font-arcade);
+    padding: 15px 25px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 6px 0 #008891;
+}
+
+.btn-secondary {
+    background: var(--glass);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--glass);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    z-index: 100;
+}
+
+/* Modals & Overlays */
+.hidden { display: none !important; }
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #1a1a2e;
+    padding: 40px;
+    border-radius: 20px;
+    border: 3px solid var(--primary);
+    text-align: center;
+}
+
+#question-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 500;
+}
+
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.level-card {
+    background: var(--glass);
+    border: 2px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.level-card.locked { opacity: 0.3; cursor: not-allowed; }
+
+@keyframes bite {
+    to { clip-path: polygon(100% 0, 100% 0, 50% 50%, 100% 100%, 100% 100%, 0 100%, 0 0); }
+}

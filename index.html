@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quest: Wang Arcade 🪙</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Splash Screen -->
+        <section id="splash-screen" class="screen active">
+            <div class="splash-content" style="text-align: center;">
+                <h1 class="neon-text">MATH QUEST</h1>
+                <h2 class="sub-neon">WANG ARCADE</h2>
+                <div class="loader-container" style="margin: 0 auto;">
+                    <div class="loader-bar"></div>
+                </div>
+                <p class="loading-text">Memuatkan Khazanah...</p>
+            </div>
+        </section>
+
+        <!-- Main Menu -->
+        <section id="main-menu" class="screen">
+            <div class="menu-header" style="margin-bottom: 2rem;">
+                <h1 class="logo-text">WANG <span>ARCADE</span></h1>
+            </div>
+            <div class="menu-body">
+                <div class="character-preview" style="margin-bottom: 2rem;">
+                    <div class="pac-man-hero"></div>
+                </div>
+                <div class="menu-buttons" style="display: flex; flex-direction: column; gap: 15px; width: 280px;">
+                    <button class="btn btn-primary" onclick="app.showScreen('level-select')">MULA BERMAIN</button>
+                    <button class="btn btn-secondary" onclick="app.showScreen('tutorial')">CARA BERMAIN</button>
+                    <button class="btn btn-secondary" onclick="app.showScreen('achievements')">PENCAPAIAN</button>
+                    <button class="btn btn-secondary" onclick="app.showScreen('dashboard')">DASHBOARD GURU</button>
+                    <button class="btn btn-secondary" onclick="app.showScreen('settings')">TETAPAN</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level Select -->
+        <section id="level-select" class="screen">
+            <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
+            <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">PILIH TAHAP</h2>
+            <div class="level-grid" id="level-grid"></div>
+        </section>
+
+        <!-- Game Screen -->
+        <section id="game-screen" class="screen" style="padding: 0;">
+            <div class="game-hud">
+                <div class="hud-item">❤️ <span id="lives">3</span></div>
+                <div class="hud-item">💰 <span id="coins">0</span></div>
+                <div class="hud-item">⭐ <span id="score">0</span></div>
+                <div class="hud-item">⏱️ <span id="timer">60</span>s</div>
+            </div>
+
+            <div id="maze-container" style="margin-top: 60px;">
+                <canvas id="game-canvas"></canvas>
+                <div id="question-overlay" class="hidden">
+                    <div class="question-card" style="text-align: center;">
+                        <div id="question-illustration" style="font-size: 4rem; margin-bottom: 10px;"></div>
+                        <h3 id="question-text" style="margin: 10px 0; font-size: 1.1rem; line-height: 1.4;"></h3>
+                        <div id="answer-options" class="options-grid"></div>
+                        <div id="feedback-area" class="hidden">
+                            <p id="feedback-text" style="font-weight: 900; margin-bottom: 10px;"></p>
+                            <div id="working-steps" style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; margin-bottom: 15px; font-size: 0.9rem;"></div>
+                            <button id="btn-next-question" class="btn btn-primary" style="width: 100%;">TERUSKAN</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-controls" style="margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="app.togglePause()">⏸️ JEDA</button>
+            </div>
+        </section>
+
+        <!-- Tutorial -->
+        <section id="tutorial" class="screen">
+            <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
+            <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">CARA BERMAIN</h2>
+            <div class="tutorial-card" style="max-width: 500px; background: var(--glass); padding: 30px; border-radius: 20px; line-height: 1.6;">
+                <ul style="list-style: none; text-align: left; gap: 1rem; display: flex; flex-direction: column;">
+                    <li>🎯 <b>Misi:</b> Kumpul syiling dan jawab soalan matematik wang untuk menang.</li>
+                    <li>🕹️ <b>Kawalan:</b> Gunakan kekunci anak panah (Arrow Keys) untuk bergerak.</li>
+                    <li>👻 <b>Musuh:</b> Elakkan hantu! Jika terkena, anda akan hilang nyawa.</li>
+                    <li>❓ <b>Soalan:</b> Sentuh blok '?' untuk menjawab soalan matematik.</li>
+                </ul>
+                <button class="btn btn-primary" style="margin-top: 30px; width: 100%;" onclick="app.showScreen('level-select')">MARI MULA!</button>
+            </div>
+        </section>
+
+        <!-- Achievements -->
+        <section id="achievements" class="screen">
+            <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
+            <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">PENCAPAIAN</h2>
+            <div id="achievements-list" class="level-grid"></div>
+        </section>
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="screen">
+            <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
+            <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">DASHBOARD GURU</h2>
+            <div class="dashboard-content" style="width: 100%; max-width: 600px;">
+                <div class="stats-summary" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                    <div class="stat-card" style="background: var(--glass); padding: 15px; border-radius: 15px; border: 1px solid var(--primary); text-align: center;">
+                        <h3 style="font-size: 0.7rem; opacity: 0.7; margin-bottom: 5px;">Ketepatan</h3>
+                        <p id="stat-accuracy" style="font-size: 1.2rem; font-weight: 900; color: var(--primary);">0%</p>
+                    </div>
+                    <div class="stat-card" style="background: var(--glass); padding: 15px; border-radius: 15px; border: 1px solid var(--secondary); text-align: center;">
+                        <h3 style="font-size: 0.7rem; opacity: 0.7; margin-bottom: 5px;">Masa</h3>
+                        <p id="stat-time" style="font-size: 1.2rem; font-weight: 900; color: var(--secondary);">0m</p>
+                    </div>
+                    <div class="stat-card" style="background: var(--glass); padding: 15px; border-radius: 15px; border: 1px solid var(--accent); text-align: center;">
+                        <h3 style="font-size: 0.7rem; opacity: 0.7; margin-bottom: 5px;">Lemah</h3>
+                        <p id="stat-weak" style="font-size: 0.8rem; font-weight: 700; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Tiada</p>
+                    </div>
+                </div>
+                <div class="analysis-table" style="background: rgba(255,255,255,0.05); border-radius: 15px; overflow-y: auto; max-height: 250px;">
+                    <table id="records-table" style="width: 100%; text-align: left; border-collapse: collapse; font-size: 0.8rem;">
+                        <thead style="background: rgba(255,255,255,0.1);">
+                            <tr>
+                                <th style="padding: 10px;">Tarikh</th>
+                                <th style="padding: 10px;">Topik</th>
+                                <th style="padding: 10px;">Keputusan</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="dashboard-actions" style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="app.resetProgress()">SET SEMULA</button>
+                    <button class="btn btn-primary" style="flex: 1;" onclick="window.print()">CETAK</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="settings" class="screen">
+            <button class="btn-back" onclick="app.showScreen('main-menu')">⬅️ BALIK</button>
+            <h2 class="section-title" style="font-family: var(--font-arcade); margin-bottom: 2rem; font-size: 2rem; color: var(--primary);">TETAPAN</h2>
+            <div class="settings-card" style="background: var(--glass); padding: 30px; border-radius: 20px; width: 300px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <span>Muzik Latar</span>
+                    <input type="checkbox" id="music-toggle" checked>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <span>Kesan Bunyi</span>
+                    <input type="checkbox" id="sfx-toggle" checked>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <span>Kelantangan</span>
+                    <input type="range" id="volume-slider" min="0" max="100" value="70" style="width: 100%;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Modals -->
+        <div id="pause-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2 style="font-family: var(--font-arcade); margin-bottom: 1rem;">DIJEDA</h2>
+                <button class="btn btn-primary" style="margin-bottom: 10px; width: 100%;" onclick="app.togglePause()">SAMBUNG</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="app.showScreen('main-menu')">MENU UTAMA</button>
+            </div>
+        </div>
+
+        <div id="game-over-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="end-title" style="font-family: var(--font-arcade); margin-bottom: 1rem;">TAMAT</h2>
+                <div class="end-stats" style="margin-bottom: 20px;">
+                    <p>Mata: <span id="final-score">0</span></p>
+                    <p>Syiling: <span id="final-coins">0</span></p>
+                </div>
+                <button class="btn btn-primary" style="margin-bottom: 10px; width: 100%;" onclick="app.restartLevel()">CUBA LAGI</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="app.showScreen('level-select')">PILIH TAHAP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/state.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="questions/questionGenerator.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
